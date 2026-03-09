@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Fonts ──────────────────────────────────────────────────────────────── */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque[opsz,wdth,wght].woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/assets/fonts/Outfit[wght].woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Cabinet Grotesk";
+  src: url("/assets/fonts/CabinetGrotesk[wght].woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─── Design Tokens ──────────────────────────────────────────────────────── */
+@layer base {
+  :root {
+    --radius: 0.75rem;
+
+    /* Zoka Dark Theme - Electric & Global */
+    --background: 0.11 0.01 260;
+    --foreground: 0.96 0.005 260;
+
+    --card: 0.15 0.015 260;
+    --card-foreground: 0.96 0.005 260;
+
+    --popover: 0.13 0.012 260;
+    --popover-foreground: 0.96 0.005 260;
+
+    /* Primary: Electric Orange-Amber */
+    --primary: 0.72 0.19 55;
+    --primary-foreground: 0.09 0.01 260;
+
+    /* Secondary: Deep Indigo-Purple */
+    --secondary: 0.22 0.04 280;
+    --secondary-foreground: 0.96 0.005 260;
+
+    --muted: 0.19 0.02 270;
+    --muted-foreground: 0.62 0.015 260;
+
+    /* Accent: Vivid Cyan-Green */
+    --accent: 0.75 0.17 165;
+    --accent-foreground: 0.09 0.01 260;
+
+    --destructive: 0.62 0.22 22;
+    --destructive-foreground: 0.96 0.005 260;
+
+    --border: 0.25 0.025 270;
+    --input: 0.22 0.025 270;
+    --ring: 0.72 0.19 55;
+
+    /* Chart Colors */
+    --chart-1: 0.72 0.19 55;
+    --chart-2: 0.75 0.17 165;
+    --chart-3: 0.65 0.18 300;
+    --chart-4: 0.7 0.2 20;
+    --chart-5: 0.6 0.16 240;
+
+    /* Sidebar */
+    --sidebar: 0.13 0.012 260;
+    --sidebar-foreground: 0.96 0.005 260;
+    --sidebar-primary: 0.72 0.19 55;
+    --sidebar-primary-foreground: 0.09 0.01 260;
+    --sidebar-accent: 0.22 0.04 280;
+    --sidebar-accent-foreground: 0.96 0.005 260;
+    --sidebar-border: 0.25 0.025 270;
+    --sidebar-ring: 0.72 0.19 55;
+
+    /* Zoka Brand Specific */
+    --zoka-orange: 0.72 0.19 55;
+    --zoka-cyan: 0.75 0.17 165;
+    --zoka-purple: 0.58 0.2 290;
+    --zoka-pink: 0.68 0.22 355;
+    --zoka-glow: 0.72 0.19 55;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: "Outfit", "Cabinet Grotesk", sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+}
+
+/* ─── Global Utilities ───────────────────────────────────────────────────── */
+@layer utilities {
+  .font-display {
+    font-family: "Bricolage Grotesque", sans-serif;
+  }
+
+  .font-body {
+    font-family: "Outfit", sans-serif;
+  }
+
+  .text-gradient-orange {
+    background: linear-gradient(135deg, oklch(0.72 0.19 55), oklch(0.78 0.2 30));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .text-gradient-multi {
+    background: linear-gradient(135deg, oklch(0.72 0.19 55), oklch(0.75 0.17 165));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .glow-orange {
+    box-shadow: 0 0 20px oklch(0.72 0.19 55 / 0.4);
+  }
+
+  .glow-cyan {
+    box-shadow: 0 0 20px oklch(0.75 0.17 165 / 0.4);
+  }
+
+  .glass {
+    background: oklch(0.15 0.015 260 / 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-dark {
+    background: oklch(0.11 0.01 260 / 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+
+  .zoka-card {
+    background: oklch(0.15 0.015 260);
+    border: 1px solid oklch(0.25 0.025 270);
+    border-radius: 1rem;
+  }
+
+  .coin-badge {
+    background: linear-gradient(135deg, oklch(0.72 0.19 55), oklch(0.65 0.18 40));
+    color: oklch(0.09 0.01 260);
+    font-weight: 700;
+    border-radius: 9999px;
+    padding: 2px 10px;
+    font-size: 0.75rem;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .noise-bg {
+    position: relative;
+  }
+  .noise-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+  }
+}
+
+/* ─── Scrollbar Styling ──────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+::-webkit-scrollbar-track {
+  background: oklch(0.11 0.01 260);
+}
+::-webkit-scrollbar-thumb {
+  background: oklch(0.3 0.03 270);
+  border-radius: 2px;
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px oklch(0.72 0.19 55 / 0.4); }
+  50% { box-shadow: 0 0 24px oklch(0.72 0.19 55 / 0.8); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out forwards;
+}
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out forwards;
+}
