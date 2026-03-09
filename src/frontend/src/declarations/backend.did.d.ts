@@ -10,7 +10,34 @@ import type { ActorMethod } from '@icp-sdk/core/agent';
 import type { IDL } from '@icp-sdk/core/candid';
 import type { Principal } from '@icp-sdk/core/principal';
 
-export type UserRole = { 'admin' : null } |
+export type MediaType = { 'video' : null } |
+  { 'image' : null };
+export interface Post {
+  'id' : string,
+  'createdAt' : bigint,
+  'mediaUrl' : string,
+  'creatorPrincipal' : Principal,
+  'caption' : string,
+  'mediaType' : MediaType,
+  'commentsCount' : bigint,
+  'likesCount' : bigint,
+}
+export interface UserProfile {
+  'bio' : string,
+  'country' : string,
+  'username' : string,
+  'displayName' : string,
+  'followersCount' : bigint,
+  'createdAt' : bigint,
+  'role' : UserRole,
+  'coinsBalance' : bigint,
+  'avatarUrl' : string,
+  'followingCount' : bigint,
+}
+export type UserRole = { 'creator' : null } |
+  { 'admin' : null } |
+  { 'user' : null };
+export type UserRole__1 = { 'admin' : null } |
   { 'user' : null } |
   { 'guest' : null };
 export interface _CaffeineStorageCreateCertificateResult {
@@ -41,9 +68,23 @@ export interface _SERVICE {
   >,
   '_caffeineStorageUpdateGatewayPrincipals' : ActorMethod<[], undefined>,
   '_initializeAccessControlWithSecret' : ActorMethod<[string], undefined>,
-  'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
-  'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'assignCallerUserRole' : ActorMethod<[Principal, UserRole__1], undefined>,
+  'createPost' : ActorMethod<[string, string, MediaType], undefined>,
+  'followUser' : ActorMethod<[Principal], undefined>,
+  'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
+  'getCallerUserRole' : ActorMethod<[], UserRole__1>,
+  'getMyProfile' : ActorMethod<[], [] | [UserProfile]>,
+  'getPost' : ActorMethod<[string], [] | [Post]>,
+  'getPosts' : ActorMethod<[bigint, bigint], Array<Post>>,
+  'getPostsByCreator' : ActorMethod<[Principal], Array<Post>>,
+  'getUserProfile' : ActorMethod<[Principal], [] | [UserProfile]>,
   'isCallerAdmin' : ActorMethod<[], boolean>,
+  'isFollowing' : ActorMethod<[Principal], boolean>,
+  'likePost' : ActorMethod<[string], undefined>,
+  'registerUser' : ActorMethod<[string, string, UserRole], undefined>,
+  'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'unfollowUser' : ActorMethod<[Principal], undefined>,
+  'updateMyProfile' : ActorMethod<[string, string, string, string], undefined>,
 }
 export declare const idlService: IDL.ServiceClass;
 export declare const idlInitArgs: IDL.Type[];

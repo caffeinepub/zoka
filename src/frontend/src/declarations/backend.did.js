@@ -19,10 +19,41 @@ export const _CaffeineStorageRefillResult = IDL.Record({
   'success' : IDL.Opt(IDL.Bool),
   'topped_up_amount' : IDL.Opt(IDL.Nat),
 });
-export const UserRole = IDL.Variant({
+export const UserRole__1 = IDL.Variant({
   'admin' : IDL.Null,
   'user' : IDL.Null,
   'guest' : IDL.Null,
+});
+export const MediaType = IDL.Variant({
+  'video' : IDL.Null,
+  'image' : IDL.Null,
+});
+export const UserRole = IDL.Variant({
+  'creator' : IDL.Null,
+  'admin' : IDL.Null,
+  'user' : IDL.Null,
+});
+export const UserProfile = IDL.Record({
+  'bio' : IDL.Text,
+  'country' : IDL.Text,
+  'username' : IDL.Text,
+  'displayName' : IDL.Text,
+  'followersCount' : IDL.Nat,
+  'createdAt' : IDL.Int,
+  'role' : UserRole,
+  'coinsBalance' : IDL.Nat,
+  'avatarUrl' : IDL.Text,
+  'followingCount' : IDL.Nat,
+});
+export const Post = IDL.Record({
+  'id' : IDL.Text,
+  'createdAt' : IDL.Int,
+  'mediaUrl' : IDL.Text,
+  'creatorPrincipal' : IDL.Principal,
+  'caption' : IDL.Text,
+  'mediaType' : MediaType,
+  'commentsCount' : IDL.Nat,
+  'likesCount' : IDL.Nat,
 });
 
 export const idlService = IDL.Service({
@@ -53,9 +84,31 @@ export const idlService = IDL.Service({
     ),
   '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
   '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
-  'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-  'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+  'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole__1], [], []),
+  'createPost' : IDL.Func([IDL.Text, IDL.Text, MediaType], [], []),
+  'followUser' : IDL.Func([IDL.Principal], [], []),
+  'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+  'getCallerUserRole' : IDL.Func([], [UserRole__1], ['query']),
+  'getMyProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+  'getPost' : IDL.Func([IDL.Text], [IDL.Opt(Post)], ['query']),
+  'getPosts' : IDL.Func([IDL.Nat, IDL.Nat], [IDL.Vec(Post)], ['query']),
+  'getPostsByCreator' : IDL.Func([IDL.Principal], [IDL.Vec(Post)], ['query']),
+  'getUserProfile' : IDL.Func(
+      [IDL.Principal],
+      [IDL.Opt(UserProfile)],
+      ['query'],
+    ),
   'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+  'isFollowing' : IDL.Func([IDL.Principal], [IDL.Bool], ['query']),
+  'likePost' : IDL.Func([IDL.Text], [], []),
+  'registerUser' : IDL.Func([IDL.Text, IDL.Text, UserRole], [], []),
+  'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'unfollowUser' : IDL.Func([IDL.Principal], [], []),
+  'updateMyProfile' : IDL.Func(
+      [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+      [],
+      [],
+    ),
 });
 
 export const idlInitArgs = [];
@@ -72,10 +125,38 @@ export const idlFactory = ({ IDL }) => {
     'success' : IDL.Opt(IDL.Bool),
     'topped_up_amount' : IDL.Opt(IDL.Nat),
   });
-  const UserRole = IDL.Variant({
+  const UserRole__1 = IDL.Variant({
     'admin' : IDL.Null,
     'user' : IDL.Null,
     'guest' : IDL.Null,
+  });
+  const MediaType = IDL.Variant({ 'video' : IDL.Null, 'image' : IDL.Null });
+  const UserRole = IDL.Variant({
+    'creator' : IDL.Null,
+    'admin' : IDL.Null,
+    'user' : IDL.Null,
+  });
+  const UserProfile = IDL.Record({
+    'bio' : IDL.Text,
+    'country' : IDL.Text,
+    'username' : IDL.Text,
+    'displayName' : IDL.Text,
+    'followersCount' : IDL.Nat,
+    'createdAt' : IDL.Int,
+    'role' : UserRole,
+    'coinsBalance' : IDL.Nat,
+    'avatarUrl' : IDL.Text,
+    'followingCount' : IDL.Nat,
+  });
+  const Post = IDL.Record({
+    'id' : IDL.Text,
+    'createdAt' : IDL.Int,
+    'mediaUrl' : IDL.Text,
+    'creatorPrincipal' : IDL.Principal,
+    'caption' : IDL.Text,
+    'mediaType' : MediaType,
+    'commentsCount' : IDL.Nat,
+    'likesCount' : IDL.Nat,
   });
   
   return IDL.Service({
@@ -106,9 +187,31 @@ export const idlFactory = ({ IDL }) => {
       ),
     '_caffeineStorageUpdateGatewayPrincipals' : IDL.Func([], [], []),
     '_initializeAccessControlWithSecret' : IDL.Func([IDL.Text], [], []),
-    'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
-    'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+    'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole__1], [], []),
+    'createPost' : IDL.Func([IDL.Text, IDL.Text, MediaType], [], []),
+    'followUser' : IDL.Func([IDL.Principal], [], []),
+    'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+    'getCallerUserRole' : IDL.Func([], [UserRole__1], ['query']),
+    'getMyProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
+    'getPost' : IDL.Func([IDL.Text], [IDL.Opt(Post)], ['query']),
+    'getPosts' : IDL.Func([IDL.Nat, IDL.Nat], [IDL.Vec(Post)], ['query']),
+    'getPostsByCreator' : IDL.Func([IDL.Principal], [IDL.Vec(Post)], ['query']),
+    'getUserProfile' : IDL.Func(
+        [IDL.Principal],
+        [IDL.Opt(UserProfile)],
+        ['query'],
+      ),
     'isCallerAdmin' : IDL.Func([], [IDL.Bool], ['query']),
+    'isFollowing' : IDL.Func([IDL.Principal], [IDL.Bool], ['query']),
+    'likePost' : IDL.Func([IDL.Text], [], []),
+    'registerUser' : IDL.Func([IDL.Text, IDL.Text, UserRole], [], []),
+    'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'unfollowUser' : IDL.Func([IDL.Principal], [], []),
+    'updateMyProfile' : IDL.Func(
+        [IDL.Text, IDL.Text, IDL.Text, IDL.Text],
+        [],
+        [],
+      ),
   });
 };
 
